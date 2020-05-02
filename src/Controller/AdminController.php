@@ -3,16 +3,17 @@
 
 namespace App\Controller;
 
+use App\Service\PascService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class IndexController extends AbstractController
+class AdminController extends AbstractController
 {
 
     /**
-     * @Route("/", name="index")
+     * @Route("/admin/competitions/update", name="admin_competitions_update")
      * @param Request $request
      *
      * @return Response
@@ -21,13 +22,15 @@ class IndexController extends AbstractController
         Request $request
     ) : Response {
         $message      = 'OK';
-        $competitions = [];
+        $competitions = [
+            PascService::getToken(),
+            PascService::getHost(),
+        ];
 
         return $this->json([
             'competitions' => $competitions,
             'message'      => $message,
         ]);
     }
-
 
 }
