@@ -4,16 +4,27 @@
 namespace App\Service;
 
 
+use Symfony\Component\HttpClient\HttpClient;
+
 class PascService
 {
-    public function __construct()
-    {
-    }
+    const USER_SUBSCRIBE_PATH   = '';
+    const GET_COMPETITIONS_PATH = '/ajax/competition/get_all';
 
 
     public static function addCompetitions()
     {
+        try {
 
+            $client   = HttpClient::create();
+            $response = $client->request('GET', self::getURL() . self::GET_COMPETITIONS_PATH);
+
+            $content = $response->toArray();
+
+            return $content;
+        } catch (\Throwable $throwable) {
+            var_dump($throwable->getMessage());
+        }
     }
 
     public static function subscribeUser()
@@ -24,9 +35,9 @@ class PascService
     /**
      * @return string
      */
-    public static function getHost()
+    public static function getURL()
     {
-        return $_ENV['PASC_HOST'];
+        return $_ENV['PASC_URL'];
     }
 
     /**
