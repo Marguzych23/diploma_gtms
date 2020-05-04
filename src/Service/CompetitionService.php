@@ -105,6 +105,24 @@ class CompetitionService
                 $this->entityManager->flush();
             }
         }
+
+        $this->updateQuerySearchData();
+    }
+
+    /**
+     * Generate search matrix by all competitions name
+     */
+    public function updateQuerySearchData()
+    {
+        $competitions         = $this->entityManager->getRepository(Competition::class)->findAll();
+        $preparedCompetitions = [];
+        foreach ($competitions as $competition) {
+            if ($competition instanceof Competition) {
+                $preparedCompetitions[$competition->getId()] = $competition->getName();
+            }
+        }
+
+        IndexService::generateSearchMatrix($preparedCompetitions);
     }
 
     /**
@@ -154,7 +172,14 @@ class CompetitionService
             ->getCompetitionsBy($deadlineStart, $deadlineEnd, $industries);
 
 
-        if (true) {
+        if (trim($query) !== '' && count($result) !== 0) {
+            $docIds = IndexService::search($query);
+            /** @var Competition $competition */
+            foreach ($result as $id => $competition) {
+                if (in_array($competition->getId(), $docIds) === false) {
+                    unset($result[$id]);
+                }
+            }
         }
 
         return $result;

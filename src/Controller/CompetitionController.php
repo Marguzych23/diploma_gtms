@@ -25,16 +25,16 @@ class CompetitionController extends AbstractController
         $message = 'OK';
         $data    = [];
 
-//        try {
+        try {
             $query         = $request->get('query', '');
             $deadlineStart = $request->get('deadline_start', time());
             $deadlineEnd   = $request->get('deadline_end', 0);
-            $industry      = $request->get('industry', [9, 10]);
+            $industry      = $request->get('industry', []);
 
             $data = $competitionService->getCompetitions($query, $deadlineStart, $deadlineEnd, $industry);
-//        } catch (\Throwable $throwable) {
-//            $message = $throwable->getMessage();
-//        }
+        } catch (\Throwable $throwable) {
+            $message = $throwable->getMessage();
+        }
 
         return $this->json([
             'message' => $message,

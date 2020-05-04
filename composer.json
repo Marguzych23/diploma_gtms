@@ -16,7 +16,11 @@
         "symfony/http-client": "4.4.*",
         "symfony/orm-pack": "^1.0",
         "symfony/serializer": "4.4.*",
-        "symfony/yaml": "4.4.*"
+        "symfony/yaml": "4.4.*",
+        "ext-simplexml": "*",
+        "ext-dom": "*",
+        "nxp/russian-porter-stemmer": "^1.0",
+        "symfony/dom-crawler": "*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.15"

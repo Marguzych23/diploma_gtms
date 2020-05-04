@@ -54,7 +54,7 @@ class Competition implements JsonSerializable
     private ?DateTime $updateDate = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="CompetitionLoadDate")
+     * @ORM\ManyToOne(targetEntity="CompetitionLoadDate")
      */
     private ?CompetitionLoadDate $competitionLoadDate = null;
 

@@ -32,6 +32,10 @@ class AdminController extends AbstractController
             $competitionService->loadNewCompetitions();
         } catch (Throwable $e) {
             $message = $e->getMessage();
+//            $data    = [
+//                'line'  => $e->getLine(),
+//                'trace' => $e->getTrace(),
+//            ];
         }
 
         return $this->json([
