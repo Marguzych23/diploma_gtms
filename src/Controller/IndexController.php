@@ -28,6 +28,4 @@ class IndexController extends AbstractController
             'test'    => $test,
         ]);
     }
-
-
 }

@@ -126,4 +126,37 @@ class CompetitionService
 
         return PascService::subscribeEmail($user->getEmail(), $user->getIndustries()->toArray());
     }
+
+    /**
+     * @return object[]
+     */
+    public function getAllCompetitions()
+    {
+        return $this->entityManager->getRepository(Competition::class)->findAll();
+    }
+
+    /**
+     * @param string $query
+     * @param int    $deadlineStart
+     * @param int    $deadlineEnd
+     * @param array  $industries
+     *
+     * @return object[]
+     * @throws Exception
+     */
+    public function getCompetitions(
+        string $query = '', int $deadlineStart = 0, int $deadlineEnd = 0, array $industries = []
+    ) {
+        $deadlineStart = $deadlineStart !== 0 ? (new DateTime())->setTimestamp($deadlineStart) : null;
+        $deadlineEnd   = $deadlineEnd !== 0 ? (new DateTime())->setTimestamp($deadlineEnd) : null;
+
+        $result = $this->entityManager->getRepository(Competition::class)
+            ->getCompetitionsBy($deadlineStart, $deadlineEnd, $industries);
+
+
+        if (true) {
+        }
+
+        return $result;
+    }
 }
