@@ -3,10 +3,11 @@
 
 namespace App\Controller;
 
-use App\Service\PascService;
+use App\Service\CompetitionService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Throwable;
 
 
 class AdminController extends AbstractController
@@ -14,23 +15,28 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/competitions/update", name="admin_competitions_update")
-     * @param Request $request
+     * @param Request            $request
+     *
+     * @param CompetitionService $competitionService
      *
      * @return Response
      */
     public function index(
-        Request $request
+        Request $request,
+        CompetitionService $competitionService
     ) : Response {
-        $message      = 'OK';
-        $competitions = [
-            PascService::getToken(),
-            PascService::getURL(),
-            PascService::getNewCompetitions(),
-        ];
+        $message = 'OK';
+        $data    = [];
+
+        try {
+            $competitionService->loadNewCompetitions();
+        } catch (Throwable $e) {
+            $message = $e->getMessage();
+        }
 
         return $this->json([
-            'competitions' => $competitions,
-            'message'      => $message,
+            'message' => $message,
+            'data'    => $data,
         ]);
     }
 

@@ -63,4 +63,28 @@ class CompetitionLoadDate
     {
         return $this->status;
     }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id) : void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param DateTime|null $date
+     */
+    public function setDate(?DateTime $date) : void
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status) : void
+    {
+        $this->status = $status;
+    }
 }
