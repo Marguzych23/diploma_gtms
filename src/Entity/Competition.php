@@ -54,6 +54,11 @@ class Competition implements JsonSerializable
     private ?DateTime $updateDate = null;
 
     /**
+     * @ORM\OneToOne(targetEntity="CompetitionLoadDate")
+     */
+    private ?CompetitionLoadDate $competitionLoadDate = null;
+
+    /**
      * Competition constructor.
      */
     public function __construct()
@@ -174,6 +179,22 @@ class Competition implements JsonSerializable
     public function setUrl(?string $url) : void
     {
         $this->url = $url;
+    }
+
+    /**
+     * @return CompetitionLoadDate|null
+     */
+    public function getCompetitionLoadDate() : ?CompetitionLoadDate
+    {
+        return $this->competitionLoadDate;
+    }
+
+    /**
+     * @param CompetitionLoadDate|null $competitionLoadDate
+     */
+    public function setCompetitionLoadDate(?CompetitionLoadDate $competitionLoadDate) : void
+    {
+        $this->competitionLoadDate = $competitionLoadDate;
     }
 
     /**

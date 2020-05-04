@@ -20,12 +20,12 @@ class IndexController extends AbstractController
     public function index(
         Request $request
     ) : Response {
-        $message      = 'OK';
-        $competitions = [];
+        $message = 'OK';
+        $test    = [];
 
         return $this->json([
-            'competitions' => $competitions,
-            'message'      => $message,
+            'message' => $message,
+            'test'    => $test,
         ]);
     }
 

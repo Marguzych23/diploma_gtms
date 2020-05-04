@@ -25,7 +25,7 @@ class AdminController extends AbstractController
         $competitions = [
             PascService::getToken(),
             PascService::getURL(),
-            PascService::addCompetitions(),
+            PascService::getNewCompetitions(),
         ];
 
         return $this->json([

@@ -32,11 +32,18 @@ class Industry
     private Collection $competitions;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="industry", cascade={"persist"})
+     */
+    private Collection $users;
+
+    /**
      * Industry constructor.
      */
     public function __construct()
     {
-        $this->competitions           = new ArrayCollection();
+        $this->competitions = new ArrayCollection();
     }
 
     /**
@@ -91,6 +98,21 @@ class Industry
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getUsers() : Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param Collection $users
+     */
+    public function setUsers(Collection $users) : void
+    {
+        $this->users = $users;
+    }
 
     /**
      * @param Competition $competition
