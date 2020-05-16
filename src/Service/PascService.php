@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use DateTime;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -17,7 +18,7 @@ class PascService
     const GET_COMPETITIONS_PATH = '/ajax/competition/get_all';
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      *
      * @return array
      * @throws ClientExceptionInterface
@@ -26,7 +27,7 @@ class PascService
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function getNewCompetitions(\DateTime $date)
+    public static function getNewCompetitions(DateTime $date)
     {
         $client   = HttpClient::create();
         $response = $client->request('POST',
@@ -36,7 +37,8 @@ class PascService
                     'token' => self::getToken(),
                     'date'  => $date,
                 ],
-            ]);
+            ]
+        );
 
         return $response->toArray();
     }
@@ -63,7 +65,8 @@ class PascService
                     'email'      => $email,
                     'industries' => $industries,
                 ],
-            ]);
+            ]
+        );
 
         return $response->toArray();
     }

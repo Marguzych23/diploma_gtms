@@ -28,3 +28,4 @@ services:
 
   # services
   App\Sevice\PascService: ~
+  App\Sevice\UserService: ~

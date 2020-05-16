@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Диплом{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/css/auth.css') }}">
+{% endblock %}
+{% block body %}
+
+    {% if is_login %}
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-pic js-tilt" data-tilt>
+                        <img src="{{ asset('resources/images/img-01.png') }}" alt="IMG">
+                    </div>
+
+                    <form class="login100-form validate-form" method="post"
+                          action="{{ url('app_account_auth', {'action':'login'}) }}">
+                    <span class="login100-form-title">
+						Авторизация
+					</span>
+
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {#                        {% if app.user %}#}
+                        {#                            <div class="mb-3">#}
+                        {#                                You are logged in as {{ app.user.username }}, <a#}
+                        {#                                        href="{{ path('app_logout') }}">Logout</a>#}
+                        {#                            </div>#}
+                        {#                        {% endif %}#}
+
+
+                        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                            <input class="input100" type="text" name="email" placeholder="email"
+                                   value="{{ last_username }}"
+                                   required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Password is required">
+                            <input class="input100" type="password" name="password" placeholder="пароль" required>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+                        </div>
+
+                        <div class="container-login100-form-btn">
+                            <button type="submit" class="login100-form-btn">
+                                Войти
+                            </button>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+                        {#<div class="text-center p-t-12">
+                            <span class="txt1">
+                                Forgot
+                            </span>
+                            <a class="txt2" href="#">
+                                Username / Password?
+                            </a>
+                        </div>
+                        #}
+                        {#
+                            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                            See https://symfony.com/doc/current/security/remember_me.html
+
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+                        #}
+
+                        <div class="text-center p-t-136">
+                            <a class="txt2" href="?action=registr">
+                                Регистрация
+                                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-pic js-tilt" data-tilt>
+                        <img src="{{ asset('resources/images/img-01.png') }}" alt="IMG">
+                    </div>
+
+                    {{ form_start(form, {'attr':{'class': 'login100-form validate-form'}}) }}
+                    <span class="login100-form-title">
+						Регистрация
+					</span>
+
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        {{ form_widget(form.email, {'attr':{'class': 'input100', 'placeholder':'email'}}) }}
+                        {#                        <input class="input100" type="text" name="email" placeholder="email"#}
+                        {#                               required>#}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        {{ form_widget(form.plainPassword.first, {'attr':{'class': 'input100', 'placeholder':'пароль'}}) }}
+                        {#                        <input class="input100" type="password" name="pass" placeholder="пароль" required>#}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        {{ form_widget(form.plainPassword.second, {'attr':{'class': 'input100', 'placeholder':'повторите пароль'}}) }}
+                        {#                        <input class="input100" type="password" name="pass" placeholder="пароль" required>#}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button type="submit" class="login100-form-btn">
+                            Зарегестрироваться
+                        </button>
+                    </div>
+
+                    <div class="text-center p-t-136">
+                        <a class="txt2" href="?action=login">
+                            Авторизация
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

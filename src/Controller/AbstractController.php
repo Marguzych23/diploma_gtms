@@ -19,4 +19,22 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
             )
         );
     }
+
+    /**
+     * @return array
+     */
+    protected function getUserData()
+    {
+        return $_SESSION['user'] ?? [];
+    }
+
+    /**
+     * @param array $data
+     */
+    protected function setUserData(array $data)
+    {
+        if (isset($data['userId'])) {
+            $_SESSION['user']['id'] = $data['userId'];
+        }
+    }
 }

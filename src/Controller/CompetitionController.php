@@ -12,13 +12,46 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompetitionController extends AbstractController
 {
     /**
-     * @Route("/competitions/get", name="get_competitions")
+     * @Route("/competitions", name="competitions")
      * @param Request            $request
      * @param CompetitionService $competitionService
      *
      * @return Response
      */
     public function index(
+        Request $request,
+        CompetitionService $competitionService
+    ) : Response {
+        $message      = 'OK';
+        $competitions = [];
+
+        try {
+            $query         = $request->get('query', '');
+            $deadlineStart = $request->get('deadline_start', 0);
+            $deadlineEnd   = $request->get('deadline_end', 0);
+            $industry      = $request->get('industry', []);
+
+            $competitions = $competitionService->getCompetitions($query, $deadlineStart, $deadlineEnd, $industry);
+        } catch (\Throwable $throwable) {
+            $message = $throwable->getMessage();
+        }
+        return $this->render(
+            'competition/index.html.twig',
+            [
+                'message'      => $message,
+                'competitions' => $competitions,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/competitions/get", name="get_competitions")
+     * @param Request            $request
+     * @param CompetitionService $competitionService
+     *
+     * @return Response
+     */
+    public function getCompetitions(
         Request $request,
         CompetitionService $competitionService
     ) : Response {
