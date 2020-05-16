@@ -46,11 +46,11 @@ class UserService
 
         $user = $this->getUserByEmail($email);
 
-        if ($user instanceof User) {
-            self::setUser($user);
-        } else {
-            self::setUser($this->createUserByKfuAuth($kfuAuth));
-        }
+        self::setUser(
+            $user instanceof User
+                ? $user
+                : $this->createUserByKfuAuth($kfuAuth)
+        );
     }
 
     /**
