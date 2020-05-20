@@ -44,6 +44,7 @@ class Industry
     public function __construct()
     {
         $this->competitions = new ArrayCollection();
+        $this->users        = new ArrayCollection();
     }
 
     /**
@@ -124,6 +125,21 @@ class Industry
         if (!$this->competitions->contains($competition)) {
             $this->competitions[] = $competition;
             $competition->addIndustry($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Industry
+     */
+    public function addUser(User $user) : self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addIndustry($this);
         }
 
         return $this;

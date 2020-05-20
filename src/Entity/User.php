@@ -28,7 +28,6 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Industry", mappedBy="users", cascade={"persist"})
-     * @ORM\JoinTable(name="users_industries")
      */
     private Collection $industries;
 
@@ -36,6 +35,11 @@ class User
      * @ORM\Column(type="datetime", nullable=true)
      */
     private ?\DateTime $lastNotifyDate = null;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Competition", mappedBy="users", cascade={"persist"})
+     */
+    private Collection $competitions;
 
     /**
      * User constructor.
@@ -107,5 +111,52 @@ class User
     public function setLastNotifyDate(?\DateTime $lastNotifyDate) : void
     {
         $this->lastNotifyDate = $lastNotifyDate;
+    }
+
+
+    /**
+     * @param Industry $industry
+     *
+     * @return User
+     */
+    public function addIndustry(Industry $industry) : self
+    {
+        if (!$this->industries->contains($industry)) {
+            $this->industries[] = $industry;
+            $industry->addUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCompetitions() : Collection
+    {
+        return $this->competitions;
+    }
+
+    /**
+     * @param Collection $competitions
+     */
+    public function setCompetitions(Collection $competitions) : void
+    {
+        $this->competitions = $competitions;
+    }
+
+    /**
+     * @param Competition $competition
+     *
+     * @return User
+     */
+    public function addCompetition(Competition $competition) : self
+    {
+        if (!$this->competitions->contains($competition)) {
+            $this->competitions[] = $competition;
+            $competition->addUser($this);
+        }
+
+        return $this;
     }
 }

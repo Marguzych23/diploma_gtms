@@ -29,7 +29,7 @@ class AdminController extends AbstractController
         $data    = [];
 
         try {
-            $competitionService->loadNewCompetitions();
+            $competitionService->updateDataFromPASC();
         } catch (Throwable $e) {
             $message = $e->getMessage();
 //            $data    = [

@@ -59,11 +59,19 @@ class Competition implements JsonSerializable
     private ?CompetitionLoadDate $competitionLoadDate = null;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="competitions", cascade={"persist"})
+     */
+    private Collection $users;
+
+    /**
      * Competition constructor.
      */
     public function __construct()
     {
         $this->industries = new ArrayCollection();
+        $this->users      = new ArrayCollection();
     }
 
     /**
@@ -131,6 +139,37 @@ class Competition implements JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Competition
+     */
+    public function addUser(User $user) : self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addCompetition($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getUsers() : Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param Collection $users
+     */
+    public function setUsers(Collection $users) : void
+    {
+        $this->users = $users;
     }
 
     /**

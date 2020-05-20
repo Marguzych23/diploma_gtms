@@ -41,9 +41,8 @@ class CompetitionService
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
-     * @throws Exception
      */
-    public function loadNewCompetitions()
+    public function updateDataFromPASC()
     {
         $lastLoadDate             = null;
         $lastCompetitionsLoadDate = $this->entityManager
@@ -58,7 +57,31 @@ class CompetitionService
             $lastLoadDate = new DateTime('10 September 2000');
         }
 
-        $competitions = PascService::getNewCompetitions($lastLoadDate)['result'];
+        $this->loadNewCompetitions($lastLoadDate);
+
+        if ($lastCompetitionsLoadDate instanceof CompetitionLoadDate) {
+            $lastCompetitionsLoadDate->setStatus(0);
+            $this->entityManager->persist($lastCompetitionsLoadDate);
+        }
+        $this->entityManager->flush();
+
+        $this->updateQuerySearchData();
+        $this->loadNotifications($lastLoadDate);
+    }
+
+    /**
+     * @param DateTime $lastLoadDate
+     *
+     * @throws ClientExceptionInterface
+     * @throws CompetitionException
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function loadNewCompetitions(DateTime $lastLoadDate)
+    {
+        $competitions = PascService::getNewCompetitions($lastLoadDate)['result']['competitions'];
 
         if (count($competitions) === 0) {
             throw new CompetitionException('', 111);
@@ -67,11 +90,6 @@ class CompetitionService
         $competitionsLoadDate = new CompetitionLoadDate();
         $competitionsLoadDate->setDate(new DateTime());
         $competitionsLoadDate->setStatus(1);
-
-        if ($lastCompetitionsLoadDate instanceof CompetitionLoadDate) {
-            $lastCompetitionsLoadDate->setStatus(0);
-            $this->entityManager->persist($lastCompetitionsLoadDate);
-        }
         $this->entityManager->persist($competitionsLoadDate);
         $this->entityManager->flush();
 
@@ -80,7 +98,7 @@ class CompetitionService
             ->getRepository(CompetitionLoadDate::class)
             ->findOneBy(['status' => 1]);
 
-        foreach ($competitions['competitions'] as $competition) {
+        foreach ($competitions as $competition) {
             if ($this->entityManager
                     ->getRepository(Competition::class)
                     ->findOneBy(['name' => $competition['name']])
@@ -105,8 +123,38 @@ class CompetitionService
                 $this->entityManager->flush();
             }
         }
+    }
 
-        $this->updateQuerySearchData();
+    /**
+     * @param DateTime $lastLoadDate
+     *
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function loadNotifications(DateTime $lastLoadDate)
+    {
+        $emails = PascService::getNotificationsForEmails($lastLoadDate)['result']['emails'];
+
+        foreach ($emails as $email) {
+            $user = $this->entityManager
+                ->getRepository(User::class)
+                ->findOneBy(['email' => $email['email']]);
+            if ($user instanceof User) {
+                foreach ($email as $competition) {
+                    $existCompetition = $this->entityManager
+                        ->getRepository(Competition::class)
+                        ->findOneBy(['name' => $competition['name']]);
+                    if ($existCompetition instanceof Competition) {
+                        $user->addCompetition($competition);
+                    }
+                }
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+            }
+        }
     }
 
     /**
