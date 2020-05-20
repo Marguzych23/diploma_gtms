@@ -58,9 +58,9 @@ class CompetitionService
             $lastLoadDate = new DateTime('10 September 2000');
         }
 
-        $competitions = PascService::getNewCompetitions($lastLoadDate);
+        $competitions = PascService::getNewCompetitions($lastLoadDate)['result'];
 
-        if (count($competitions) === null) {
+        if (count($competitions) === 0) {
             throw new CompetitionException('', 111);
         }
 

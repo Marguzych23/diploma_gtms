@@ -39,7 +39,7 @@ class Competition implements JsonSerializable
     private ?DateTime $deadline = null;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=512, nullable=true)
      */
     private ?string $grantSize = null;
 

@@ -22,7 +22,7 @@ final class Version20200502120606 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE competition (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, deadline DATETIME DEFAULT NULL, grant_size VARCHAR(64) DEFAULT NULL, url VARCHAR(255) DEFAULT NULL, update_date DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE competition (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, deadline DATETIME DEFAULT NULL, grant_size VARCHAR(512) DEFAULT NULL, url VARCHAR(255) DEFAULT NULL, update_date DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE industry (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE industry_competition (industry_id INT NOT NULL, competition_id INT NOT NULL, INDEX IDX_8769D6E72B19A734 (industry_id), INDEX IDX_8769D6E77B39D312 (competition_id), PRIMARY KEY(industry_id, competition_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE industry_competition ADD CONSTRAINT FK_8769D6E72B19A734 FOREIGN KEY (industry_id) REFERENCES industry (id) ON DELETE CASCADE');

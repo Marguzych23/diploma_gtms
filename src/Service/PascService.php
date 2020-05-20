@@ -14,8 +14,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class PascService
 {
-    const USER_SUBSCRIBE_PATH   = '/ajax/subscribe/user';
-    const GET_COMPETITIONS_PATH = '/ajax/competition/get_all';
+    const USER_SUBSCRIBE_PATH              = '/api/subscribe/emails';
+    const GET_COMPETITIONS_AND_NOTIFY_PATH = '/api/get';
 
     /**
      * @param DateTime $date
@@ -31,11 +31,41 @@ class PascService
     {
         $client   = HttpClient::create();
         $response = $client->request('POST',
-            self::getURL() . self::GET_COMPETITIONS_PATH,
+            self::getURL() . self::GET_COMPETITIONS_AND_NOTIFY_PATH,
             [
                 'body' => [
-                    'token' => self::getToken(),
-                    'date'  => $date,
+                    'app_name'     => self::getAppName(),
+                    'token'        => self::getToken(),
+                    'time'         => $date->getTimestamp(),
+                    'competitions' => 1,
+                ],
+            ]
+        );
+
+        return $response->toArray();
+    }
+
+    /**
+     * @param DateTime $date
+     *
+     * @return array
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public static function getNotificationsForEmails(DateTime $date)
+    {
+        $client   = HttpClient::create();
+        $response = $client->request('POST',
+            self::getURL() . self::GET_COMPETITIONS_AND_NOTIFY_PATH,
+            [
+                'body' => [
+                    'app_name' => self::getAppName(),
+                    'token'    => self::getToken(),
+                    'date'     => $date->getTimestamp(),
+                    'emails'   => 1,
                 ],
             ]
         );
@@ -61,9 +91,12 @@ class PascService
             self::getURL() . self::USER_SUBSCRIBE_PATH,
             [
                 'body' => [
-                    'token'      => self::getToken(),
-                    'email'      => $email,
-                    'industries' => $industries,
+                    'app_name' => self::getAppName(),
+                    'token'    => self::getToken(),
+                    'emails'   => [
+                        'email'      => $email,
+                        'industries' => $industries,
+                    ],
                 ],
             ]
         );
@@ -85,5 +118,13 @@ class PascService
     public static function getToken()
     {
         return $_ENV['PASC_TOKEN'];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getAppName()
+    {
+        return str_replace('_', ' ', $_ENV['PASC_APP_NAME']);
     }
 }
