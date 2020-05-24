@@ -30,32 +30,33 @@ class CompetitionController extends AbstractController
         $message      = 'OK';
         $competitions = [];
         $industries   = [];
-        $_request     = [];
+
+        $query    = $request->get('query', '');
+        $date     = $request->get('date', '');
+        $industry = $request->get('industry', []);
 
         try {
-            $query    = $request->get('query', '');
-            $date     = $request->get('date', 0);
-            $industry = $request->get('industry', []);
-
             if (($strpos = strpos($date, ' - ')) !== false) {
                 $deadlineStart = strtotime(substr($date, 0, $strpos));
                 $deadlineEnd   = strtotime(substr($date, $strpos + 3));
-            } else {
+            } elseif (strlen($date) > 0) {
                 $deadlineStart = strtotime($date);
                 $deadlineEnd   = strtotime($date) + 86399;
+            } else {
+                $deadlineStart = 0;
+                $deadlineEnd   = 0;
             }
 
             $competitions = $competitionService->getCompetitions($query, $deadlineStart, $deadlineEnd, $industry);
             $industries   = $industryService->getAll();
-
-            $_request = [
-                'query'    => $query,
-                'date'     => $date,
-                'industry' => $industry,
-            ];
         } catch (\Throwable $throwable) {
             $message = $throwable->getMessage();
         }
+        $_request = [
+            'query'    => $query,
+            'date'     => $date,
+            'industry' => $industry,
+        ];
 
         return $this->render(
             'competition/index.html.twig',

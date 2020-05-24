@@ -10,18 +10,18 @@ $(document).ready(function () {
                 industry[i] = $(custom_checkbox[i]).val();
             }
         }
-
-        $.ajax({
-            type: 'post',
-            url: '/competition',  // <- адрес куда отправлять запрос
-            data: {query, industry, date}
-        }).done(function (response) {
-            if (response.code === 'OK') {
-                // if success
-            } else {
-                // if error
-            }
-        });
+        $.redirect('/competitions', {query, industry, date});
+        // $.ajax({
+        //     type: 'post',
+        //     url: '/competitions',  // <- адрес куда отправлять запрос
+        //     data: {query, industry, date}
+        // }).done(function (response) {
+        //     if (response.code === 'OK') {
+        //         // if success
+        //     } else {
+        //         // if error
+        //     }
+        // });
     }
 
     $("#search_input").on("change paste keyup", $.debounce(500, loadSearchResults));
