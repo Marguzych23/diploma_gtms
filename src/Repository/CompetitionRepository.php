@@ -34,7 +34,7 @@ class CompetitionRepository extends ServiceEntityRepository
     ) {
         $query = $this->_em->getRepository(Competition::class)
             ->createQueryBuilder('c')
-            ->orderBy('c.deadline', 'ASC');
+            ->orderBy('c.deadline', 'DESC');
 
         $parameters = [];
 

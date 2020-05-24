@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}kj{{ competition.name }}{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% if competition %}
+        {{ competition.name }}
+        {{ competition.url }}
+    {% elseif message %}
+        {{ message }}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

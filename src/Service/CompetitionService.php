@@ -158,6 +158,18 @@ class CompetitionService
     }
 
     /**
+     * @param int $id
+     *
+     * @return Competition|object|null
+     */
+    public function getCompetitionById(int $id) : ?Competition
+    {
+        return $this->entityManager
+            ->getRepository(Competition::class)
+            ->find($id);
+    }
+
+    /**
      * Generate search matrix by all competitions name
      */
     public function updateQuerySearchData()

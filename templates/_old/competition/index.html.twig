@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{#{% block title %}Log in!{% endblock %}#}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/css/competitions.css') }}">
+    {#    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"#}
+    {#          id="bootstrap-css">#}
+{% endblock %}
+
+
+{% block body %}
+    <div class="limiter">
+        <div class="container-100">
+            {#            <div class="wrap-100">#}
+            <form action="" class="wrap-100">
+                <div class="col-md-12">
+                    <div class="input-group" id="adv-search">
+                        <input type="text" class="form-control" placeholder="Ключевые слова"/>
+                        <div class="input-group-btn">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary"><span
+                                            class="glyphicon glyphicon-search"
+                                            aria-hidden="true"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Default checkbox
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                <label class="form-check-label" for="defaultCheck2">
+                                    Default checkbox
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-9">
+                    {% if competitions %}
+                        <ul class="list-unstyled">
+                            <div><h3>Актуальные конкурсы:</h3></div>
+                            {% for competition in competitions %}
+                                <li>
+                                    {#                                <p>#}
+                                    <a href="{{ competition.url }}">
+                                        {{ competition.name }}
+                                    </a>
+                                    {#                                </p>#}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% elseif message %}
+                        {{ competitions }}
+                    {% endif %}
+                </div>
+            </form>
+            {#            </div>#}
+        </div>
+    </div>
+{% endblock %}

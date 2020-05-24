@@ -1,0 +1,367 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Профиль{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/lib/datepicker/datepicker.min.css') }}">
+{% endblock %}
+
+{% block body %}
+<body>
+<nav class="navbar navbar-expand-sm navbar-light">
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#header"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="header">
+        <ul class="navbar-nav ml-auto align-items-center">
+            <li class="nav-item px-sm-3 active">
+                <a class="nav-link" href="#">
+          <span class="icon__like">
+            <svg class="bi bi-heart-fill" width="18" height="18" viewBox="0 0 16 16" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </span>
+                    <span>134</span>
+                </a>
+            </li>
+            <li class="nav-item px-sm-3">
+                <a class="nav-link" href="#">Голосование</a>
+            </li>
+            <li class="nav-item px-sm-3">
+                <a class="nav-link" href="#">О нас</a>
+            </li>
+            <li class="nav-item px-sm-3 my-2 my-sm-auto">
+                <button class="btn btn-sm align-middle btn-outline-secondary" type="button">Войти</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<section class="page-wrapper pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile"
+                           role="tab" aria-controls="pills-profile" aria-selected="true">
+                            <svg class="bi bi-person-circle" width="1em" height="1em" viewBox="0 0 16 16"
+                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                                <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                <path fill-rule="evenodd"
+                                      d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            </svg>
+                            Профиль
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-contest-tab" data-toggle="pill" href="#pills-contest" role="tab"
+                           aria-controls="pills-contest" aria-selected="false">
+                            <svg class="bi bi-trophy" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 1h10c-.495 3.467-.5 10-5 10S3.495 4.467 3 1zm0 15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1H3zm2-1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1H5z"/>
+                                <path fill-rule="evenodd"
+                                      d="M12.5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-6-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0z"/>
+                                <path d="M7 10h2v4H7v-4z"/>
+                                <path d="M10 11c0 .552-.895 1-2 1s-2-.448-2-1 .895-1 2-1 2 .448 2 1z"/>
+                            </svg>
+                            Конкурсы
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-application-tab" data-toggle="pill" href="#pills-application"
+                           role="tab" aria-controls="pills-application" aria-selected="false">
+                            <svg class="bi bi-file-richtext" width="1em" height="1em" viewBox="0 0 16 16"
+                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
+                                <path fill-rule="evenodd"
+                                      d="M4.5 11.5A.5.5 0 0 1 5 11h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm0-2A.5.5 0 0 1 5 9h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm1.639-3.708l1.33.886 1.854-1.855a.25.25 0 0 1 .289-.047l1.888.974V7.5a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V7s1.54-1.274 1.639-1.208zM6.25 5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5z"/>
+                            </svg>
+                            Заявка
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
+                         aria-labelledby="pills-profile-tab">
+                        <!-- was-validated -->
+                        <form class="needs-validation" novalidate>
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-4 col-form-label">Имя</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="name" required>
+                                    <!-- <div class="valid-tooltip">text success</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lastname" class="col-sm-4 col-form-label">Фамилия</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="lastname">
+                                    <!-- <div class="valid-tooltip">text success</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="patronymic" class="col-sm-4 col-form-label">Отчество</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="patronymic">
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="phone_number" class="col-sm-4 col-form-label">Номер телефона</label>
+                                <div class="col-sm-8">
+                                    <input type="tel" class="form-control" id="phone_number" required>
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-4 col-form-label">E-mail</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="email" required>
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 circle-checkbox-wrapper">
+                                    <input class="form-control circle-checkbox" type="checkbox" id="notifications"
+                                           value="0">
+                                    <label for="notifications" class="col-sm-4 pl-0 circle-checkbox-label">Получать
+                                        уведомления на E-mail</label>
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h4 class="col-sm-4 col-form-label">Направления</h4>
+                                <div class="col-sm-8">
+                                    <div class="directions-list pt-2">
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d1" value='1'>
+                                            <label for="d1">Математика, механика, информатика</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d2" value='2'>
+                                            <label for="d2">Физика и науки о космосе</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d3" value='3'>
+                                            <label for="d3">Химия и науки о материалах</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d4" value='4'>
+                                            <label for="d4">Биология и медицинские науки</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d5" value='5'>
+                                            <label for="d5">Науки о Земле</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d6" value='6'>
+                                            <label for="d6">Гуманитарные и социальные науки</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d7" value='7'>
+                                            <label for="d7">Инженерные науки</label>
+                                        </div>
+                                        <div class="direction">
+                                            <input type="checkbox" class="custom-checkbox" id="d8" value='8'>
+                                            <label for="d8">Сельскохозяйственные науки</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="invalid-tooltip">text-error</div> -->
+                            </div>
+                            <button class="btn btn-danger" type="submit">Сохранить</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contest" role="tabpanel" aria-labelledby="pills-contest-tab">
+                        <div class="col-12 col-md search-results">
+                            <div class="card" style="width: 16rem;">
+                                <div class="card-body">
+                                    <div class="card-content-wrapper">
+                                        <div class="card-body-top">
+                                            <h6>01.02.2019 - 31.12.2019</h6>
+                                            <span class="icon__like">
+                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                  clip-rule="evenodd"/>
+                          </svg>
+                        </span>
+                                        </div>
+                                        <h5 class="card-title"><a href="#">Международный конкурс инновационных проектов
+                                                в области информационной безопасности</a></h5>
+                                    </div>
+                                    <p class="card-text">Математика, механика, информатика</p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 16rem;">
+                                <div class="card-body">
+                                    <div class="card-content-wrapper">
+                                        <div class="card-body-top">
+                                            <h6>01.02.2019 - 31.12.2019</h6>
+                                            <span class="icon__like">
+                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                  clip-rule="evenodd"/>
+                          </svg>
+                        </span>
+                                        </div>
+                                        <h5 class="card-title"><a href="#">Международный конкурс инновационных проектов
+                                                в области информационной безопасности</a></h5>
+                                    </div>
+                                    <!-- <p class="card-text">Математика, механика, информатика</p> -->
+                                </div>
+                            </div>
+                            <div class="card" style="width: 16rem;">
+                                <div class="card-body">
+                                    <div class="card-content-wrapper">
+                                        <div class="card-body-top">
+                                            <h6>01.02.2019 - 31.12.2019</h6>
+                                            <span class="icon__like">
+                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                  clip-rule="evenodd"/>
+                          </svg>
+                        </span>
+                                        </div>
+                                        <h5 class="card-title"><a href="#">Международный конкурс проектов в области
+                                                информационной безопасности</a></h5>
+                                    </div>
+                                    <p class="card-text">Математика, механика, информатика</p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 16rem;">
+                                <div class="card-body">
+                                    <div class="card-content-wrapper">
+                                        <div class="card-body-top">
+                                            <h6>01.02.2019 - 31.12.2019</h6>
+                                            <span class="icon__like">
+                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                  clip-rule="evenodd"/>
+                          </svg>
+                        </span>
+                                        </div>
+                                        <h5 class="card-title"><a href="#">Международный информационной безопасности</a>
+                                        </h5>
+                                    </div>
+                                    <p class="card-text">Математика, механика, информатика</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-application" role="tabpanel"
+                         aria-labelledby="pills-application-tab">
+                        <form class="needs-validation" novalidate>
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-4 col-form-label">Имя</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="name" required>
+                                    <!-- <div class="valid-tooltip">text success</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-4 col-form-label">E-mail</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="email" required>
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="url" class="col-sm-4 col-form-label">Ссылка на сайт</label>
+                                <div class="col-sm-8">
+                                    <input type="url" class="form-control" id="url" required>
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="direction" class="col-sm-4 col-form-label">Направления</label>
+                                <div class="col-sm-8">
+                                    <select class="custom-select" id="direction">
+                                        <option selected></option>
+                                        <option value="1">Математика, механика, информатика</option>
+                                        <option value="2">Физика и науки о космосе</option>
+                                        <option value="3">Химия и науки о материалах</option>
+                                        <option value="4">Биология и медицинские науки</option>
+                                        <option value="5">Науки о Земле</option>
+                                        <option value="6">Гуманитарные и социальные науки</option>
+                                        <option value="7">Инженерные науки</option>
+                                        <option value="8">Сельскохозяйственные науки</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="comment" class="col-sm-4 col-form-label">Комментарий</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="comment"></textarea>
+                                    <!-- <div class="invalid-tooltip">text-error</div> -->
+                                </div>
+                            </div>
+                            <button class="btn btn-success" type="submit">Отправить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{#<footer class="py-5 mt-5 border-top">#}
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-12 col-md-6">#}
+{#                <h5 class="logo-cars">Cars</h5>#}
+{#                <p>Поиск конкурсов и грантов</p>#}
+{#            </div>#}
+{#            <div class="col-6 col-md-3">#}
+{#                <ul class="list-unstyled">#}
+{#                    <li><a href="#">Оформить кредит</a></li>#}
+{#                    <li><a href="#">Запись на тест-драйв</a></li>#}
+{#                    <li><a href="#">Сравнение товаров</a></li>#}
+{#                    <li><a href="#">О нас</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <div class="col-6 col-md-3">#}
+{#                <ul class="list-unstyled text-small">#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img class="mr-2" src="images/facebook.png" alt="">#}
+{#                            <span>Facebook</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img class="mr-2" src="images/twitter.png" alt="">#}
+{#                            <span>Twitter</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img class="mr-2" src="images/instagram.png" alt="">#}
+{#                            <span>Instagram</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</footer>#}
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('resources/lib/jQuery/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ asset('resources/lib/Popper/Popper.js') }}"></script>
+<script src="{{ asset('resources/lib/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ asset('resources/js/script.js') }}"></script>
+{% endblock %}
