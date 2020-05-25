@@ -45,7 +45,8 @@ class UserService
         $email = $kfuAuth->getUserData()['email'];
 
         $user = $this->getUserByEmail($email);
-        var_dump($user);exit();
+        var_dump($user);
+        exit();
         self::setUser(
             $user instanceof User
                 ? $user
@@ -111,10 +112,10 @@ class UserService
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public static function getUser()
+    public static function getUser() : ?User
     {
-        return unserialize($_SESSION['user_']);
+        return isset($_SESSION['user_']) ? unserialize($_SESSION['user_']) : null;
     }
 }

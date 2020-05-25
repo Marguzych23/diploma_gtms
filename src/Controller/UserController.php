@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Service\CompetitionService;
+use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,6 +35,7 @@ class UserController extends AbstractController
             [
                 'message'      => $message,
                 'competitions' => $competitions,
+                'user'         => UserService::getUser(),
             ]
         );
     }

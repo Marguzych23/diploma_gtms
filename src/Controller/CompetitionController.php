@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Service\CompetitionService;
 use App\Service\IndustryService;
+use App\Service\UserService;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +67,7 @@ class CompetitionController extends AbstractController
                 'industries'   => $industries,
                 'datetime'     => new DateTime(),
                 'request'      => $_request,
+                'user'         => UserService::getUser(),
             ]
         );
     }
@@ -97,6 +99,7 @@ class CompetitionController extends AbstractController
             [
                 'message'     => $message,
                 'competition' => $competition,
+                'user'        => UserService::getUser(),
             ]
         );
     }
