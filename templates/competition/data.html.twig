@@ -1,16 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}kj{{ competition.name }}{% endblock %}
+{% block title %}
+    {% if  competition %}
+        {{ competition.name }}
+    {% else %}
+        Конкурс
+    {% endif %}
+{% endblock %}
 {% block stylesheets %}
 {% endblock %}
 
 {% block body %}
+    <div class="bread-crumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="bread-crumbs-wrapper">
+                        <a href="{{ url('search_competitions') }}">Конкурсы</a>&nbsp;/&nbsp;
+                        <a href="{{ url('app_user_profile') }}">Личный кабинет</a>
+                        <svg class="bi bi-chevron-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% if competition %}
-        {{ competition.name }}
-        {{ competition.url }}
+        <section class="page-contest-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-9 col-sm-10 col-md-11">
+                        <h1>{{ competition.name }}</h1>
+                    </div>
+{#                    <div class="col-3 col-sm-2 col-md-1">#}
+{#          <span class="icon__like">#}
+{#            <svg class="bi bi-heart-fill" width="50" height="47" viewBox="-1 -1 18 16"#}
+{#                 xmlns="http://www.w3.org/2000/svg">#}
+{#              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"#}
+{#                    clip-rule="evenodd"/>#}
+{#            </svg>#}
+{#          </span>#}
+{#                    </div>#}
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="item">
+                            <span>Срок подачи заявки:&nbsp;</span>
+                            <span>до {{ competition.deadline|date("H:i:s d.m.Y") }}</span>
+                        </div>
+                        <div class="item">
+                            <span>Направления:&nbsp;</span>
+                            <span>
+                                {% for industry in competition.industries %}
+                                    {{ industry.name }};
+                                {% endfor %}
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span>Размер гранта:&nbsp;</span>
+                            <span>{{ competition.grantSize }}</span>
+                        </div>
+                        <div class="item">
+                            <span>Подробнее:&nbsp;</span>
+                            <span><a class="long-link" href="{{ competition.url }}">{{ competition.url }}</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     {% elseif message %}
         {{ message }}
     {% endif %}
 {% endblock %}
 {% block javascripts %}
+    <script src="{{ asset('resources/lib/Popper/Popper.js') }}"></script>
+    <script src="{{ asset('resources/lib/bootstrap/bootstrap.min.js') }}"></script>
 {% endblock %}

@@ -85,9 +85,6 @@ class CompetitionController extends AbstractController
         $competition = null;
 
         try {
-            var_dump($_REQUEST);
-            exit();
-
             $id = (int) $request->get('id', 0);
 
             $competition = $competitionService->getCompetitionById($id);

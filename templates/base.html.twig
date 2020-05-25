@@ -10,8 +10,78 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
+<nav class="navbar navbar-expand-sm navbar-light">
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#header"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="header">
+        <ul class="navbar-nav ml-auto align-items-center">
+            <li class="nav-item px-sm-3 active">
+                <a class="nav-link" href="#">
+          <span class="icon__like">
+            <svg class="bi bi-heart-fill" width="18" height="18" viewBox="0 0 16 16" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </span>
+                    <span>134</span>
+                </a>
+            </li>
+            <li class="nav-item px-sm-3">
+                <a class="nav-link" href="#">Голосование</a>
+            </li>
+            <li class="nav-item px-sm-3">
+                <a class="nav-link" href="#">О нас</a>
+            </li>
+            <li class="nav-item px-sm-3 my-2 my-sm-auto">
+                <button class="btn btn-sm align-middle btn-outline-secondary" type="button">Войти</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 {% block body %}{% endblock %}
 
+<footer class="py-5 mt-5 border-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h5 class="logo-cars">GTMS</h5>
+                <p>Поиск конкурсов и грантов</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <ul class="list-unstyled">
+                    <li><a href="#">О нас</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <ul class="list-unstyled text-small">
+                    <li>
+                        <a href="#">
+                            <img class="mr-2" src="{{ asset('resources/images/facebook.png') }}" alt="">
+                            <span>Facebook</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img class="mr-2" src="{{ asset('resources/images/twitter.png') }}" alt="">
+                            <span>Twitter</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img class="mr-2" src="{{ asset('resources/images/instagram.png') }}" alt="">
+                            <span>Instagram</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script src="{{ asset('resources/lib/jQuery/jquery-3.5.1.min.js') }}"></script>
 <script src="{{ asset('resources/lib/jQuery/jquery.redirect.js') }}"></script>
