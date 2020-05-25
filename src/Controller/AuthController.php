@@ -21,7 +21,6 @@ class AuthController extends AbstractController
     public function login() : Response
     {
         return $this->redirect(KfuAuthService::getCodeForLogin());
-//        return $this->json(KfuAuthService::getCodeForLogin());
     }
 
     /**
@@ -39,15 +38,11 @@ class AuthController extends AbstractController
         $code = $request->get('code');
 
         try {
-            var_dump($code);
             $userService->auth($code);
-            exit();
         } catch (Throwable $e) {
-            return $this->redirectToRoute('competitions');
+            var_dump($e->getMessage());
         }
 
-
-        return $this->redirect(KfuAuthService::getCodeForLogin());
-//        return $this->json([]);
+        return $this->redirectToRoute('search_competitions');
     }
 }

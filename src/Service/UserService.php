@@ -4,6 +4,8 @@
 namespace App\Service;
 
 
+use App\Entity\Competition;
+use App\Entity\Industry;
 use App\Entity\KfuAuth;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,13 +47,96 @@ class UserService
         $email = $kfuAuth->getUserData()['email'];
 
         $user = $this->getUserByEmail($email);
-        var_dump($user);
-        exit();
+
         self::setUser(
             $user instanceof User
                 ? $user
                 : $this->createUserByKfuAuth($kfuAuth)
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function getCompetitions()
+    {
+        $user = $this->getUserByEmail(self::getUser()->getEmail());
+
+        $competitions = [];
+
+        /** @var Industry $industry */
+        foreach ($user->getIndustries() as $industry) {
+            $competitions = array_merge($competitions, $industry->getCompetitions()->getValues());
+        }
+
+        return $competitions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCompetitionsIdForNotify()
+    {
+        $user = $this->getUserByEmail(self::getUser()->getEmail());
+
+        $competitions = [];
+
+        /** @var Competition $competition */
+        foreach ($user->getCompetitions() as $competition) {
+            $competitions[] = $competition->getId();
+        }
+
+        return $competitions;
+    }
+
+    /**
+     * @param array $industries
+     */
+    public function addIndustries(array $industries)
+    {
+        $user = $this->getUserByEmail(self::getUser()->getEmail());
+
+        foreach ($industries as $industry) {
+            $tempIndustry = $this->entityManager
+                ->getRepository(Industry::class)
+                ->find((int) $industry);
+            if ($tempIndustry instanceof Industry) {
+                $user->addIndustry($tempIndustry);
+            }
+        }
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        self::setUser($user);
+    }
+
+    /**
+     * @return  array $industriesId
+     */
+    public function getIndustriesId()
+    {
+        $industriesId = [];
+
+        /** @var Industry $industry */
+        foreach ($this->getUserByEmail(self::getUser()->getEmail())->getIndustries() as $industry) {
+            $industriesId[] = $industry->getId();
+        }
+
+        return $industriesId;
+    }
+
+    /**
+     * @param bool $subscribe
+     */
+    public function emailSubscribe(bool $subscribe = false)
+    {
+        $user = $this->getUserByEmail(self::getUser()->getEmail());
+
+        $user->setEmailSubscribe($subscribe);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        self::setUser($user);
     }
 
     /**
@@ -62,9 +147,14 @@ class UserService
     public function createUserByKfuAuth(KfuAuth $kfuAuth)
     {
         $email = $kfuAuth->getUserData()['email'];
+        $name  = $kfuAuth->getUserData()['last_name']
+            . ' ' . $kfuAuth->getUserData()['first_name']
+            . ' ' . $kfuAuth->getUserData()['middle_name'];
 
         $user = new User();
         $user->setEmail($email);
+        $user->setName($name);
+        $user->setLastNotifyDate(new \DateTime());
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

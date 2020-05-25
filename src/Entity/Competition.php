@@ -29,7 +29,6 @@ class Competition implements JsonSerializable
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Industry", mappedBy="competitions", cascade={"persist"})
-     * @ORM\JoinTable(name="competitions_industries")
      */
     private Collection $industries;
 

@@ -22,14 +22,23 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=180)
+     */
+    private ?string $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private ?string $email = null;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Industry", mappedBy="users", cascade={"persist"})
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
      */
-    private Collection $industries;
+    private bool $emailSubscribe = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -37,17 +46,14 @@ class User
     private ?\DateTime $lastNotifyDate = null;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Industry", inversedBy="users")
+     */
+    private Collection $industries;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Competition", mappedBy="users", cascade={"persist"})
      */
     private Collection $competitions;
-
-    /**
-     * User constructor.
-     */
-    public function __construct()
-    {
-        $this->industries = new  ArrayCollection();
-    }
 
     /**
      * @return int
@@ -82,22 +88,6 @@ class User
     }
 
     /**
-     * @return Collection
-     */
-    public function getIndustries() : Collection
-    {
-        return $this->industries;
-    }
-
-    /**
-     * @param Collection $industries
-     */
-    public function setIndustries(Collection $industries) : void
-    {
-        $this->industries = $industries;
-    }
-
-    /**
      * @return \DateTime|null
      */
     public function getLastNotifyDate() : ?\DateTime
@@ -111,6 +101,55 @@ class User
     public function setLastNotifyDate(?\DateTime $lastNotifyDate) : void
     {
         $this->lastNotifyDate = $lastNotifyDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) : void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmailSubscribe() : bool
+    {
+        return $this->emailSubscribe;
+    }
+
+    /**
+     * @param bool $emailSubscribe
+     */
+    public function setEmailSubscribe(bool $emailSubscribe) : void
+    {
+        $this->emailSubscribe = $emailSubscribe;
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function getIndustries() : Collection
+    {
+        return $this->industries;
+    }
+
+    /**
+     * @param Collection $industries
+     */
+    public function setIndustries(Collection $industries) : void
+    {
+        $this->industries = $industries;
     }
 
 

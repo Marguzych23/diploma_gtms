@@ -50,28 +50,18 @@ class KfuAuthService
      * @param string $authCode
      *
      * @return KfuAuth|void
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
      */
     public static function getUserTokens(string $authCode)
     {
-        $client = HttpClient::create();
+        $curl = "curl -X POST " . self::getOauthURL() . self::GET_TOKEN_PATH . " "
+            . "-H 'content-type: application/x-www-form-urlencoded' "
+            . "-d 'client_id=" . self::getClientId()
+            . "&client_secret=" . self::getClientSecret()
+            . "&grant_type=authorization_code"
+            . "&code=" . $authCode
+            . "&redirect_uri=" . self::getKfuFirstCallbackURL() . "'";
 
-        $response = $client->request('POST',
-            self::getOauthURL() . self::GET_TOKEN_PATH,
-            [
-                'body' => [
-                    'client_id'     => self::getClientId(),
-                    'client_secret' => self::getClientSecret(),
-                    'grant_type'    => $authCode,
-                    'code'          => $authCode,
-                    'redirect_uri'  => self::getKfuFirstCallbackURL(),
-                ],
-            ]
-        )->toArray();
+        $response = json_decode(shell_exec($curl), true);
 
         $kfuAuth = new KfuAuth();
         $kfuAuth->setAccessToken($response['access_token']);
@@ -87,27 +77,17 @@ class KfuAuthService
      * @param KfuAuth $kfuAuth
      *
      * @return KfuAuth
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
      */
     public static function refreshUserTokens(KfuAuth $kfuAuth)
     {
-        $client = HttpClient::create();
+        $curl = "curl -X POST " . self::getOauthURL() . self::GET_TOKEN_PATH . " "
+            . "-H 'content-type: application/x-www-form-urlencoded' "
+            . "-d 'client_id=" . self::getClientId()
+            . "&client_secret=" . self::getClientSecret()
+            . "&grant_type=refresh_token"
+            . "&refresh_token=" . $kfuAuth->getRefreshToken() . "'";
 
-        $response = $client->request('POST',
-            self::getOauthURL() . self::GET_TOKEN_PATH,
-            [
-                'body' => [
-                    'client_id'     => self::getClientId(),
-                    'client_secret' => self::getClientSecret(),
-                    'grant_type'    => 'refresh_token',
-                    'refresh_token' => $kfuAuth->getRefreshToken(),
-                ],
-            ]
-        )->toArray();
+        $response = json_decode(shell_exec($curl), true);
 
         $kfuAuth->setAccessToken($response['access_token']);
         $kfuAuth->setRefreshToken($response['refresh_token']);
@@ -184,6 +164,6 @@ class KfuAuthService
      */
     protected static function getKfuFirstCallbackURL()
     {
-        return $_ENV['HOST'] . $_ENV['KFU_FIRST_CALLBACK_URL'];
+        return 'http://' . $_ENV['HOST'] . $_ENV['KFU_FIRST_CALLBACK_URL'];
     }
 }

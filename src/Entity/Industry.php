@@ -34,7 +34,7 @@ class Industry
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="industry", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="industries")
      */
     private Collection $users;
 

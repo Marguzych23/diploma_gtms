@@ -60,44 +60,35 @@
                             <!-- was-validated -->
                             <form class="needs-validation" novalidate>
                                 <div class="form-group row">
-                                    <label for="name" class="col-sm-4 col-form-label">Имя</label>
+                                    <label for="name" class="col-sm-4 col-form-label">ФИО</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="name" required>
+                                        <span id="name" style="color: black;">
+                                            {% if user %}
+                                                {{ user.name }}
+                                            {% else %}
+                                                Undefined
+                                            {% endif %}</span>
                                         <!-- <div class="valid-tooltip">text success</div> -->
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="lastname" class="col-sm-4 col-form-label">Фамилия</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="lastname">
-                                        <!-- <div class="valid-tooltip">text success</div> -->
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="patronymic" class="col-sm-4 col-form-label">Отчество</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="patronymic">
-                                        <!-- <div class="invalid-tooltip">text-error</div> -->
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="phone_number" class="col-sm-4 col-form-label">Номер телефона</label>
-                                    <div class="col-sm-8">
-                                        <input type="tel" class="form-control" id="phone_number" required>
-                                        <!-- <div class="invalid-tooltip">text-error</div> -->
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="email" class="col-sm-4 col-form-label">E-mail</label>
                                     <div class="col-sm-8">
-                                        <input type="email" class="form-control" id="email" required>
+                                        <span id="email" style="color: black;">
+                                            {% if user %}
+                                                {{ user.email }}
+                                            {% else %}
+                                                Undefined
+                                            {% endif %}</span>
+                                        {#                                        <input type="email" class="form-control" id="email" required#}
+                                        {#                                               {% if user %}value="{{ user.email }}"{% endif %}>#}
                                         <!-- <div class="invalid-tooltip">text-error</div> -->
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-12 circle-checkbox-wrapper">
                                         <input class="form-control circle-checkbox" type="checkbox" id="notifications"
-                                               value="0">
+                                               value="{% if user and user.emailSubscribe %}1{% else %}0{% endif %}">
                                         <label for="notifications" class="col-sm-4 pl-0 circle-checkbox-label">Получать
                                             уведомления на E-mail</label>
                                         <!-- <div class="invalid-tooltip">text-error</div> -->
@@ -107,131 +98,54 @@
                                     <h4 class="col-sm-4 col-form-label">Направления</h4>
                                     <div class="col-sm-8">
                                         <div class="directions-list pt-2">
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d1" value='1'>
-                                                <label for="d1">Математика, механика, информатика</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d2" value='2'>
-                                                <label for="d2">Физика и науки о космосе</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d3" value='3'>
-                                                <label for="d3">Химия и науки о материалах</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d4" value='4'>
-                                                <label for="d4">Биология и медицинские науки</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d5" value='5'>
-                                                <label for="d5">Науки о Земле</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d6" value='6'>
-                                                <label for="d6">Гуманитарные и социальные науки</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d7" value='7'>
-                                                <label for="d7">Инженерные науки</label>
-                                            </div>
-                                            <div class="direction">
-                                                <input type="checkbox" class="custom-checkbox" id="d8" value='8'>
-                                                <label for="d8">Сельскохозяйственные науки</label>
-                                            </div>
+
+                                            {% if industries %}
+                                                {% for industry in industries %}
+                                                    <div class="direction">
+                                                        <input type="checkbox" class="custom-checkbox"
+                                                               id="d{{ industry.id }}"
+                                                               value='{{ industry.id }}'
+                                                               {% if industry.id in industries_id %}checked{% endif %}>
+                                                        <label for="d{{ industry.id }}">{{ industry.name }}</label>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <!-- <div class="invalid-tooltip">text-error</div> -->
                                 </div>
-                                <button class="btn btn-danger" type="submit">Сохранить</button>
+                                <button id="save-profile" class="btn btn-danger" type="button">Сохранить</button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="pills-contest" role="tabpanel"
                              aria-labelledby="pills-contest-tab">
                             <div class="col-12 col-md search-results">
-                                <div class="card" style="width: 16rem;">
-                                    <div class="card-body">
-                                        <div class="card-content-wrapper">
-                                            <div class="card-body-top">
-                                                <h6>01.02.2019 - 31.12.2019</h6>
-                                                <span class="icon__like">
-                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                                  clip-rule="evenodd"/>
-                          </svg>
-                        </span>
+
+                                {% if competitions %}
+                                    {% for competition in competitions %}
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <div class="card-content-wrapper">
+                                                    <div class="card-body-top">
+                                                        <h6>{% if datetime < competition.deadline %}
+                                                                Актуально
+                                                            {% else %}
+                                                                Архив
+                                                            {% endif %}</h6>
+                                                    </div>
+                                                    <h5 class="card-title"><a
+                                                                href="{{ url('get_competition', {'id':competition.id, 'page':1}) }}">
+                                                            {{ competition.name }}</a></h5>
+                                                </div>
+                                                <p class="card-text">Заявки
+                                                    до {{ competition.deadline|date("H:i:s d.m.Y") }}</p>
                                             </div>
-                                            <h5 class="card-title"><a href="#">Международный конкурс инновационных
-                                                    проектов
-                                                    в области информационной безопасности</a></h5>
                                         </div>
-                                        <p class="card-text">Математика, механика, информатика</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 16rem;">
-                                    <div class="card-body">
-                                        <div class="card-content-wrapper">
-                                            <div class="card-body-top">
-                                                <h6>01.02.2019 - 31.12.2019</h6>
-                                                <span class="icon__like">
-                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                                  clip-rule="evenodd"/>
-                          </svg>
-                        </span>
-                                            </div>
-                                            <h5 class="card-title"><a href="#">Международный конкурс инновационных
-                                                    проектов
-                                                    в области информационной безопасности</a></h5>
-                                        </div>
-                                        <!-- <p class="card-text">Математика, механика, информатика</p> -->
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 16rem;">
-                                    <div class="card-body">
-                                        <div class="card-content-wrapper">
-                                            <div class="card-body-top">
-                                                <h6>01.02.2019 - 31.12.2019</h6>
-                                                <span class="icon__like">
-                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                                  clip-rule="evenodd"/>
-                          </svg>
-                        </span>
-                                            </div>
-                                            <h5 class="card-title"><a href="#">Международный конкурс проектов в области
-                                                    информационной безопасности</a></h5>
-                                        </div>
-                                        <p class="card-text">Математика, механика, информатика</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 16rem;">
-                                    <div class="card-body">
-                                        <div class="card-content-wrapper">
-                                            <div class="card-body-top">
-                                                <h6>01.02.2019 - 31.12.2019</h6>
-                                                <span class="icon__like">
-                          <svg class="bi bi-heart-fill" width="20" height="18" viewBox="-1 -1 18 16"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                                  clip-rule="evenodd"/>
-                          </svg>
-                        </span>
-                                            </div>
-                                            <h5 class="card-title"><a href="#">Международный информационной
-                                                    безопасности</a>
-                                            </h5>
-                                        </div>
-                                        <p class="card-text">Математика, механика, информатика</p>
-                                    </div>
-                                </div>
+                                    {% endfor %}
+                                {% elseif message %}
+                                    {#                        {{ message }}#}
+                                    Не найдено
+                                {% endif %}
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-application" role="tabpanel"
@@ -258,22 +172,22 @@
                                         <!-- <div class="invalid-tooltip">text-error</div> -->
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="direction" class="col-sm-4 col-form-label">Направления</label>
-                                    <div class="col-sm-8">
-                                        <select class="custom-select" id="direction">
-                                            <option selected></option>
-                                            <option value="1">Математика, механика, информатика</option>
-                                            <option value="2">Физика и науки о космосе</option>
-                                            <option value="3">Химия и науки о материалах</option>
-                                            <option value="4">Биология и медицинские науки</option>
-                                            <option value="5">Науки о Земле</option>
-                                            <option value="6">Гуманитарные и социальные науки</option>
-                                            <option value="7">Инженерные науки</option>
-                                            <option value="8">Сельскохозяйственные науки</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                {#                                <div class="form-group row">#}
+                                {#                                    <label for="direction" class="col-sm-4 col-form-label">Направления</label>#}
+                                {#                                    <div class="col-sm-8">#}
+                                {#                                        <select class="custom-select" id="direction">#}
+                                {#                                            <option selected></option>#}
+                                {#                                            <option value="1">Математика, механика, информатика</option>#}
+                                {#                                            <option value="2">Физика и науки о космосе</option>#}
+                                {#                                            <option value="3">Химия и науки о материалах</option>#}
+                                {#                                            <option value="4">Биология и медицинские науки</option>#}
+                                {#                                            <option value="5">Науки о Земле</option>#}
+                                {#                                            <option value="6">Гуманитарные и социальные науки</option>#}
+                                {#                                            <option value="7">Инженерные науки</option>#}
+                                {#                                            <option value="8">Сельскохозяйственные науки</option>#}
+                                {#                                        </select>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
                                 <div class="form-group row">
                                     <label for="comment" class="col-sm-4 col-form-label">Комментарий</label>
                                     <div class="col-sm-8">
@@ -281,7 +195,7 @@
                                         <!-- <div class="invalid-tooltip">text-error</div> -->
                                     </div>
                                 </div>
-                                <button class="btn btn-success" type="submit">Отправить</button>
+                                <button id="save" class="btn btn-success" type="submit">Отправить</button>
                             </form>
                         </div>
                     </div>
@@ -293,5 +207,7 @@
 {% block javascripts %}
     <script src="{{ asset('resources/lib/Popper/Popper.js') }}"></script>
     <script src="{{ asset('resources/lib/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('resources/js/script.js') }}"></script>
+    <script src="{{ asset('resources/lib/jQuery/jquery.ba-throttle-debounce.min.js') }}"></script>
+    <script src="{{ asset('resources/js/profile.js') }}"></script>
+    {#    <script src="{{ asset('resources/js/script.js') }}"></script>#}
 {% endblock %}

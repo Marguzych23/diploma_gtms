@@ -85,9 +85,11 @@ class CompetitionController extends AbstractController
     ) : Response {
         $message     = 'OK';
         $competition = null;
+        $page        = 0;
 
         try {
-            $id = (int) $request->get('id', 0);
+            $id   = (int) $request->get('id', 0);
+            $page = (int) $request->get('page', 0);
 
             $competition = $competitionService->getCompetitionById($id);
         } catch (\Throwable $throwable) {
@@ -99,6 +101,7 @@ class CompetitionController extends AbstractController
             [
                 'message'     => $message,
                 'competition' => $competition,
+                'page'        => $page,
                 'user'        => UserService::getUser(),
             ]
         );
