@@ -45,7 +45,7 @@ class UserService
         $email = $kfuAuth->getUserData()['email'];
 
         $user = $this->getUserByEmail($email);
-
+        var_dump($user);exit();
         self::setUser(
             $user instanceof User
                 ? $user

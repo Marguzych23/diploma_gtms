@@ -18,26 +18,32 @@
 
     <div class="navbar-collapse collapse" id="header">
         <ul class="navbar-nav ml-auto align-items-center">
-            <li class="nav-item px-sm-3 active">
-                <a class="nav-link" href="#">
-          <span class="icon__like">
-            <svg class="bi bi-heart-fill" width="18" height="18" viewBox="0 0 16 16" fill="currentColor"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                    clip-rule="evenodd"/>
-            </svg>
-          </span>
-                    <span>134</span>
-                </a>
-            </li>
+            {#            <li class="nav-item px-sm-3 active">#}
+            {#                <a class="nav-link" href="#">#}
+            {#          <span class="icon__like">#}
+            {#            <svg class="bi bi-heart-fill" width="18" height="18" viewBox="0 0 16 16" fill="currentColor"#}
+            {#                 xmlns="http://www.w3.org/2000/svg">#}
+            {#              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"#}
+            {#                    clip-rule="evenodd"/>#}
+            {#            </svg>#}
+            {#          </span>#}
+            {#                    <span>134</span>#}
+            {#                </a>#}
+            {#            </li>#}
             <li class="nav-item px-sm-3">
-                <a class="nav-link" href="#">Голосование</a>
+                <a class="nav-link" href="{{ url('search_competitions') }}">Конкурсы</a>
             </li>
-            <li class="nav-item px-sm-3">
-                <a class="nav-link" href="#">О нас</a>
-            </li>
+            {#            <li class="nav-item px-sm-3">#}
+            {#                <a class="nav-link" href="#">О нас</a>#}
+            {#            </li>#}
             <li class="nav-item px-sm-3 my-2 my-sm-auto">
-                <button class="btn btn-sm align-middle btn-outline-secondary" type="button">Войти</button>
+                {% if user is defined %}
+                    <a href="{{ url('app_user_profile') }}" class="btn btn-sm align-middle btn-outline-secondary"
+                       type="button">Профиль</a>
+                {% else %}
+                    <a href="{{ url('app_login') }}" class="btn btn-sm align-middle btn-outline-secondary"
+                       type="button">Войти</a>
+                {% endif %}
             </li>
         </ul>
     </div>
