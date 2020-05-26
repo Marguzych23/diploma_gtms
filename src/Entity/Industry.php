@@ -144,4 +144,19 @@ class Industry
 
         return $this;
     }
+
+    /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function removeUser(User $user) : self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeIndustry($this);
+        }
+
+        return $this;
+    }
 }

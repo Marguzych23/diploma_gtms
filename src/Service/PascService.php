@@ -77,6 +77,8 @@ class PascService
      * @param string $email
      * @param array  $industries
      *
+     * @param bool   $sub
+     *
      * @return array
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -84,7 +86,7 @@ class PascService
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public static function subscribeEmail(string $email, array $industries)
+    public static function subscribeEmail(string $email, array $industries, bool $sub = true)
     {
         $client   = HttpClient::create();
         $response = $client->request('POST',
@@ -93,6 +95,7 @@ class PascService
                 'body' => [
                     'app_name' => self::getAppName(),
                     'token'    => self::getToken(),
+                    'type'     => $sub ? 'subscribe' : 'unsubscribe',
                     'emails'   => [
                         'email'      => $email,
                         'industries' => $industries,

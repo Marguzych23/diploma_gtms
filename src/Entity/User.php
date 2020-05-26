@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -169,6 +168,21 @@ class User
     }
 
     /**
+     * @param Industry $industry
+     *
+     * @return $this
+     */
+    public function removeIndustry(Industry $industry) : self
+    {
+        if ($this->industries->contains($industry)) {
+            $this->industries->removeElement($industry);
+            $industry->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection
      */
     public function getCompetitions() : Collection
@@ -194,6 +208,21 @@ class User
         if (!$this->competitions->contains($competition)) {
             $this->competitions[] = $competition;
             $competition->addUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Competition $competition
+     *
+     * @return $this
+     */
+    public function removeCompetition(Competition $competition) : self
+    {
+        if ($this->competitions->contains($competition)) {
+            $this->competitions->removeElement($competition);
+            $competition->removeUser($this);
         }
 
         return $this;

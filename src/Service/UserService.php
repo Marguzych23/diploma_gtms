@@ -126,7 +126,7 @@ class UserService
     /**
      * @param array $industries
      */
-    public function addIndustries(array $industries)
+    public function notifyIndustries(array $industries)
     {
         $user = $this->getUserByEmail(self::getUser()->getEmail());
 
@@ -138,6 +138,13 @@ class UserService
                 $user->addIndustry($tempIndustry);
             }
         }
+
+        foreach ($user->getIndustries() as $industry) {
+            if (!in_array($industry->getId(), $industries)) {
+                $user->removeIndustry($industry);
+            }
+        }
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
@@ -171,6 +178,48 @@ class UserService
         $this->entityManager->flush();
 
         self::setUser($user);
+    }
+
+    /**
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function emailSubscribeOnIndustryPASC()
+    {
+        $user = $this->getUserByEmail(self::getUser()->getEmail());
+
+        $industries = [];
+
+        /** @var Industry $industry */
+        foreach ($user->getIndustries() as $industry) {
+            $industries[] = $industry->getId();
+        }
+
+        PascService::subscribeEmail(
+            $user->getEmail(),
+            $industries,
+            $user->isEmailSubscribe()
+        );
+    }
+
+
+    /**
+     * @param Competition $competition
+     */
+    public function deleteNotifyCompetition(Competition $competition)
+    {
+        $user = self::getUser();
+        if ($user !== null) {
+            $user = $this->getUserByEmail(self::getUser()->getEmail());
+
+            $user->removeCompetition($competition);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        }
     }
 
     /**

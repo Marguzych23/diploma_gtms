@@ -70,9 +70,11 @@ class CompetitionController extends AbstractController
                 'industries'   => $industries,
                 'datetime'     => new DateTime(),
                 'request'      => $_request,
-                'user'         => $userService->getUserByEmail(
-                    UserService::getUser()->getEmail()
-                ),
+                'user'         => UserService::getUser() !== null
+                    ? $userService->getUserByEmail(
+                        UserService::getUser()->getEmail()
+                    )
+                    : null,
             ]
         );
     }
@@ -100,6 +102,7 @@ class CompetitionController extends AbstractController
             $page = (int) $request->get('page', 0);
 
             $competition = $competitionService->getCompetitionById($id);
+            $userService->deleteNotifyCompetition($competition);
         } catch (\Throwable $throwable) {
             $message = $throwable->getMessage();
         }
@@ -110,9 +113,11 @@ class CompetitionController extends AbstractController
                 'message'     => $message,
                 'competition' => $competition,
                 'page'        => $page,
-                'user'        => $userService->getUserByEmail(
-                    UserService::getUser()->getEmail()
-                ),
+                'user'        => UserService::getUser() !== null
+                    ? $userService->getUserByEmail(
+                        UserService::getUser()->getEmail()
+                    )
+                    : null,
             ]
         );
     }

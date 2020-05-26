@@ -29,6 +29,10 @@ class UserController extends AbstractController
         $competitionsId = [];
         $industriesId   = [];
 
+        if (UserService::getUser() === null) {
+            return $this->redirectToRoute('app_login');
+        }
+
         try {
             $competitions   = $userService->getCompetitions();
             $industries     = $industryService->getAll();
@@ -47,9 +51,11 @@ class UserController extends AbstractController
                 'competitions'    => $competitions,
                 'competitions_id' => $competitionsId,
                 'datetime'        => new \DateTime(),
-                'user'            => $userService->getUserByEmail(
-                    UserService::getUser()->getEmail()
-                ),
+                'user'            => UserService::getUser() !== null
+                    ? $userService->getUserByEmail(
+                        UserService::getUser()->getEmail()
+                    )
+                    : null,
             ]
         );
     }
@@ -78,11 +84,18 @@ class UserController extends AbstractController
                         $ind[] = (int) $industry;
                     }
                 }
-                $userService->addIndustries($ind);
+                $industries = $ind;
+
+                $userService->notifyIndustries($ind);
             }
 
             if ($emailSubscribe !== null && $emailSubscribe !== UserService::getUser()->isEmailSubscribe()) {
                 $userService->emailSubscribe($emailSubscribe);
+            }
+
+            if ($emailSubscribe !== null
+                || (is_array($industries) && count($industries) > 0)) {
+                $userService->emailSubscribeOnIndustryPASC();
             }
 
             $this->redirectToRoute('app_profile');

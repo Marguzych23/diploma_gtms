@@ -156,6 +156,21 @@ class Competition implements JsonSerializable
     }
 
     /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function removeUser(User $user) : self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeCompetition($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection
      */
     public function getUsers() : Collection
