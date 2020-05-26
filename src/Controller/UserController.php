@@ -47,7 +47,9 @@ class UserController extends AbstractController
                 'competitions'    => $competitions,
                 'competitions_id' => $competitionsId,
                 'datetime'        => new \DateTime(),
-                'user'            => UserService::getUser(),
+                'user'            => $userService->getUserByEmail(
+                    UserService::getUser()->getEmail()
+                ),
             ]
         );
     }
@@ -78,6 +80,7 @@ class UserController extends AbstractController
                 }
                 $userService->addIndustries($ind);
             }
+
             if ($emailSubscribe !== null && $emailSubscribe !== UserService::getUser()->isEmailSubscribe()) {
                 $userService->emailSubscribe($emailSubscribe);
             }
@@ -98,7 +101,8 @@ class UserController extends AbstractController
      */
     public function getProfileData() : Response
     {
-        return $this->json(UserService::getUser());
+        var_dump(UserService::getUser());
+        return $this->json('');
     }
 
 }

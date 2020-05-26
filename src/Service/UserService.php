@@ -56,9 +56,11 @@ class UserService
     }
 
     /**
+     * @param array $notify
+     *
      * @return array
      */
-    public function getCompetitions()
+    public function getCompetitions(array $notify = [])
     {
         $user = $this->getUserByEmail(self::getUser()->getEmail());
 
@@ -66,7 +68,39 @@ class UserService
 
         /** @var Industry $industry */
         foreach ($user->getIndustries() as $industry) {
-            $competitions = array_merge($competitions, $industry->getCompetitions()->getValues());
+            /** @var Competition $competition */
+            foreach ($industry->getCompetitions()->getValues() as $competition) {
+                if (!isset($competitions[$competition->getId()])) {
+                    $competitions[$competition->getId()] = $competition;
+                }
+            }
+        }
+
+        usort($competitions, function ($a, $b) {
+            /** @var Competition $a */
+            /** @var Competition $b */
+            if ($a->getDeadline() > $b->getDeadline()) {
+//                if ($a->getUpdateDate() > $b->getUpdateDate()) {
+                return -1;
+//                } elseif ()
+            } elseif ($a->getDeadline() < $b->getDeadline()) {
+                return 1;
+            }
+            return 0;
+        });
+
+        if (count($notify) !== 0) {
+            $first  = [];
+            $second = [];
+            /** @var Competition $competition */
+            foreach ($competitions as $competition) {
+                if (in_array($competition->getId(), $notify)) {
+                    $first[] = $competition;
+                } else {
+                    $second[] = $competition;
+                }
+            }
+            $competitions = array_merge($first, $second);
         }
 
         return $competitions;

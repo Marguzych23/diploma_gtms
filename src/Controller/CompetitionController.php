@@ -21,12 +21,15 @@ class CompetitionController extends AbstractController
      *
      * @param IndustryService    $industryService
      *
+     * @param UserService        $userService
+     *
      * @return Response
      */
     public function searchCompetitions(
         Request $request,
         CompetitionService $competitionService,
-        IndustryService $industryService
+        IndustryService $industryService,
+        UserService $userService
     ) : Response {
         $message      = 'OK';
         $competitions = [];
@@ -67,7 +70,9 @@ class CompetitionController extends AbstractController
                 'industries'   => $industries,
                 'datetime'     => new DateTime(),
                 'request'      => $_request,
-                'user'         => UserService::getUser(),
+                'user'         => $userService->getUserByEmail(
+                    UserService::getUser()->getEmail()
+                ),
             ]
         );
     }
@@ -77,11 +82,14 @@ class CompetitionController extends AbstractController
      * @param Request            $request
      * @param CompetitionService $competitionService
      *
+     * @param UserService        $userService
+     *
      * @return Response
      */
     public function getCompetition(
         Request $request,
-        CompetitionService $competitionService
+        CompetitionService $competitionService,
+        UserService $userService
     ) : Response {
         $message     = 'OK';
         $competition = null;
@@ -102,7 +110,9 @@ class CompetitionController extends AbstractController
                 'message'     => $message,
                 'competition' => $competition,
                 'page'        => $page,
-                'user'        => UserService::getUser(),
+                'user'        => $userService->getUserByEmail(
+                    UserService::getUser()->getEmail()
+                ),
             ]
         );
     }

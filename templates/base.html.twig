@@ -40,7 +40,11 @@
                 {#                {% if user is defined %}#}
                 {% if user %}
                     <a href="{{ url('app_profile') }}" class="btn btn-sm align-middle btn-outline-secondary"
-                       type="button">Профиль</a>
+                       type="button">
+                        {% if user.competitions.count() != 0 %}
+                            <b style="color: red;">&bull;</b>
+                        {% endif %}
+                        Профиль</a>
                 {% else %}
                     <a href="{{ url('app_login') }}" class="btn btn-sm align-middle btn-outline-secondary"
                        type="button">Войти</a>

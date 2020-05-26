@@ -39,6 +39,8 @@ class AuthController extends AbstractController
 
         try {
             $userService->auth($code);
+
+            return $this->redirectToRoute('app_profile');
         } catch (Throwable $e) {
             var_dump($e->getMessage());
         }

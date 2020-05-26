@@ -2,7 +2,7 @@ $(document).ready(function () {
     function saveSettings() {
         var custom_checkbox = $(".custom-checkbox");
         var industries = [];
-        var email_subscribe = $("#notifications").val();
+        var email_subscribe = $("#notifications").is(":checked");
 
         for (var i = 0; i < custom_checkbox.length; i++) {
             if ($(custom_checkbox[i]).is(":checked")) {
