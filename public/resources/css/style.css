@@ -360,12 +360,31 @@ footer .logo-cars {
   align-items: flex-start;
 }
 
-.card-body-top h6 {
+.card-body-top h6,
+.card-body-top .new-block__span {
   margin: 0 0 16px;
   padding: 0;
   font-size: 16px;
   line-height: 1.2;
   color: #979797;
+}
+
+.card-body-top .new-block__span {
+  display: none;
+  font-size: 14px;
+  padding: 5px 5px 3px;
+  margin: -3px 0 13px;
+  background-color: cornflowerblue;
+  border-radius: 5px;
+  color: white;
+}
+
+.new-block .card-body-top h6 {
+  display: none;
+}
+
+.new-block .card-body-top .new-block__span {
+  display: inline;
 }
 
 .card-body h5 a {
@@ -461,6 +480,18 @@ footer .logo-cars {
   color: black;
 }
 
+.nav-link svg.bi-exclamation-circle {
+  display: none;
+}
+
+.new-subscriptions svg:not(.bi-exclamation-circle) {
+  display: none;
+}
+
+.new-subscriptions svg.bi-exclamation-circle {
+  display: inline;
+}
+
 @media (max-width: 575px) {
   .circle-checkbox-label {
     margin-bottom: calc(8px + 2em);
@@ -472,7 +503,7 @@ footer .logo-cars {
     left: 0;
     transform: translate(0, 100%);
   }
-
+  
   .circle-checkbox:checked + .circle-checkbox-label::after {
     top: unset;
     bottom: -0.5em;
@@ -554,7 +585,7 @@ footer .logo-cars {
 .long-link {
   white-space: pre-wrap; /* CSS3 */    
   white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  /*white-space: -pre-wrap; !* Opera 4-6 *!    */
+  white-space: -pre-wrap; /* Opera 4-6 */    
   white-space: -o-pre-wrap; /* Opera 7 */    
   word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
