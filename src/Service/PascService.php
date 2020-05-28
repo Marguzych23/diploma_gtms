@@ -95,10 +95,10 @@ class PascService
                 'body' => [
                     'app_name' => self::getAppName(),
                     'token'    => self::getToken(),
-                    'type'     => $sub ? 'subscribe' : 'unsubscribe',
                     'emails'   => [
                         'email'      => $email,
                         'industries' => $industries,
+                        'type'       => $sub ? 'subscribe' : 'unsubscribe',
                     ],
                 ],
             ]
