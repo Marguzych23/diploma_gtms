@@ -77,6 +77,12 @@ class UserController extends AbstractController
             $industries     = $request->get('industries', []);
             $emailSubscribe = (bool) $request->get('email_subscribe', 0);
 
+
+            if ($emailSubscribe !== null) {
+                $userService->emailSubscribe($emailSubscribe);
+                $userService->emailSubscribeOnIndustryPASC();
+            }
+
             if (is_array($industries)) {
                 $ind = [];
                 foreach ($industries as $industry) {
@@ -84,17 +90,8 @@ class UserController extends AbstractController
                         $ind[] = (int) $industry;
                     }
                 }
-                $industries = $ind;
-
                 $userService->notifyIndustries($ind);
-            }
 
-            if ($emailSubscribe !== null && $emailSubscribe !== UserService::getUser()->isEmailSubscribe()) {
-                $userService->emailSubscribe($emailSubscribe);
-            }
-
-            if ($emailSubscribe !== null
-                || (is_array($industries) && count($industries) > 0)) {
                 $userService->emailSubscribeOnIndustryPASC();
             }
 

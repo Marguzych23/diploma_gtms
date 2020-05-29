@@ -96,9 +96,11 @@ class PascService
                     'app_name' => self::getAppName(),
                     'token'    => self::getToken(),
                     'emails'   => [
-                        'email'        => $email,
-                        'industries'   => $industries,
-                        'email_notify' => $emailNotify,
+                        [
+                            'email'        => $email,
+                            'industries'   => $industries,
+                            'email_notify' => $emailNotify,
+                        ],
                     ],
                 ],
             ]
